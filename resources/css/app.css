@@ -1,0 +1,214 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+@source '../**/*.vue';
+
+@theme {
+    --font-display: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    --color-navy-950: #05122B;
+    --color-navy-900: #071A3E;
+    --color-navy-800: #0A2A66;
+    --color-navy-700: #123B82;
+    --color-ocean-600: #1E4E8C;
+    --color-ocean-500: #2A67B1;
+    --color-ocean-100: #E6F0FA;
+    --color-ocean-50: #F4F7FB;
+
+    --color-gold-600: #C98E1B;
+    --color-gold-500: #E6A92E;
+    --color-gold-400: #F2C14E;
+    --color-gold-100: #FDF3DC;
+    --color-gold-50: #FFFBF0;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+        font-family: var(--font-sans);
+        color: #0F172A;
+        background-color: #FFFFFF;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-display);
+        letter-spacing: -0.02em;
+    }
+}
+
+/* Rich Text (CMS WYSIWYG) rendered prose styles */
+.prose-carano {
+    color: #334155;
+    line-height: 1.8;
+    font-size: 1rem;
+}
+.prose-carano h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #071A3E;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+.prose-carano h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0A2A66;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.prose-carano p {
+    margin-bottom: 1rem;
+}
+.prose-carano ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+.prose-carano ol {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+.prose-carano li {
+    margin-bottom: 0.35rem;
+}
+.prose-carano blockquote {
+    border-left: 4px solid #E6A92E;
+    background: #FFFBF0;
+    padding: 0.85rem 1.25rem;
+    border-radius: 0 0.75rem 0.75rem 0;
+    color: #071A3E;
+    font-style: italic;
+    margin: 1.25rem 0;
+}
+.prose-carano a {
+    color: #1E4E8C;
+    text-decoration: underline;
+    font-weight: 500;
+}
+.prose-carano img {
+    border-radius: 1rem;
+    margin: 1.5rem 0;
+    max-width: 100%;
+    height: auto;
+}
+
+/* TipTap Editor area */
+.tiptap-editor .ProseMirror {
+    min-height: 260px;
+    padding: 1rem;
+    outline: none;
+}
+.tiptap-editor .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    color: #94A3B8;
+    pointer-events: none;
+    height: 0;
+}
+
+/* Subtle maritime route pulse */
+@keyframes routeDash {
+    to {
+        stroke-dashoffset: -48;
+    }
+}
+.animate-route-dash {
+    stroke-dasharray: 8 8;
+    animation: routeDash 2.2s linear infinite;
+}
+
+/* Maritime Parallax & Logistics Animations (60fps GPU-friendly) */
+@keyframes shipBob {
+    0%, 100% {
+        transform: translate3d(0, 0px, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate3d(0, -6px, 0) rotate(-0.6deg);
+    }
+}
+.animate-ship-bob {
+    animation: shipBob 5.5s ease-in-out infinite;
+    transform-origin: center center;
+}
+
+@keyframes craneMove {
+    0%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+    40% {
+        transform: translate3d(44px, 0, 0);
+    }
+    65% {
+        transform: translate3d(44px, 0, 0);
+    }
+}
+.animate-crane-trolley {
+    animation: craneMove 9s ease-in-out infinite;
+}
+
+@keyframes containerHoist {
+    0%, 15% {
+        transform: translate3d(0, 0, 0);
+    }
+    40%, 60% {
+        transform: translate3d(0, 26px, 0);
+    }
+    85%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+}
+.animate-container-hoist {
+    animation: containerHoist 9s ease-in-out infinite;
+}
+
+@keyframes waveDrift {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+.animate-wave-slow {
+    animation: waveDrift 24s linear infinite;
+}
+.animate-wave-fast {
+    animation: waveDrift 14s linear infinite;
+}
+
+@keyframes marqueeLoop {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+.animate-marquee {
+    display: flex;
+    width: max-content;
+    animation: marqueeLoop 32s linear infinite;
+}
+.animate-marquee:hover {
+    animation-play-state: paused;
+}
+
+@keyframes floatSlow {
+    0%, 100% {
+        transform: translate3d(0, 0px, 0);
+    }
+    50% {
+        transform: translate3d(0, -8px, 0);
+    }
+}
+.animate-float-slow {
+    animation: floatSlow 6s ease-in-out infinite;
+}
+
