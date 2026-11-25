@@ -2,6 +2,10 @@
 import { computed, onBeforeUnmount, ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import IconMapper from '@/Components/IconMapper.vue';
+import LottiePlayer from '@/Components/LottiePlayer.vue';
+import originCargoAnim from '@/assets/lottie/origin-cargo.json';
+import oceanVesselAnim from '@/assets/lottie/ocean-vessel.json';
+import customsVerifiedAnim from '@/assets/lottie/customs-verified.json';
 import {
     ArrowRight,
     CheckCircle2,
@@ -50,6 +54,13 @@ const activeStep = computed(() => {
     if (!list.length) return null;
     const idx = Math.min(selectedIndex.value, list.length - 1);
     return list[idx];
+});
+
+const activePhaseAnimation = computed(() => {
+    const phase = activeStep.value?.phase;
+    if (phase === 'sea') return oceanVesselAnim;
+    if (phase === 'destination') return customsVerifiedAnim;
+    return originCargoAnim;
 });
 
 const progressPercent = computed(() => {
@@ -182,24 +193,26 @@ const nextStep = () => {
         </div>
 
         <!-- Animated Live Voyage Progress Rail -->
-        <div class="bg-white rounded-2xl border border-slate-200 px-5 py-4">
-            <div class="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
-                <span>{{ locale === 'en' ? 'Origin Factory' : 'Gudang Pabrik Asal' }}</span>
+        <div class="bg-white rounded-2xl border border-slate-200 px-4 sm:px-5 py-4 overflow-hidden">
+            <div class="flex flex-wrap items-center justify-between gap-1 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
+                <span class="hidden sm:inline">{{ locale === 'en' ? 'Origin Factory' : 'Gudang Pabrik Asal' }}</span>
                 <span class="text-navy-900 font-extrabold">
                     {{ locale === 'en' ? 'Journey Progress' : 'Progres Pengiriman' }}: {{ progressPercent }}%
                 </span>
-                <span>{{ locale === 'en' ? 'Final Warehouse Delivery' : 'Delivery ke Tujuan' }}</span>
+                <span class="hidden sm:inline">{{ locale === 'en' ? 'Final Warehouse Delivery' : 'Delivery ke Tujuan' }}</span>
             </div>
-            <div class="relative h-2.5 rounded-full bg-slate-100 overflow-visible">
-                <div
-                    class="h-full rounded-full bg-gradient-to-r from-ocean-600 via-navy-800 to-gold-500 transition-all duration-500"
-                    :style="{ width: `${progressPercent}%` }"
-                />
-                <div
-                    class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-7 h-7 rounded-full bg-navy-900 border-2 border-gold-400 text-gold-400 flex items-center justify-center shadow-md transition-all duration-500"
-                    :style="{ left: `${progressPercent}%` }"
-                >
-                    <Ship :size="13" />
+            <div class="px-3.5">
+                <div class="relative h-2.5 rounded-full bg-slate-100 overflow-visible">
+                    <div
+                        class="h-full rounded-full bg-gradient-to-r from-ocean-600 via-navy-800 to-gold-500 transition-all duration-500"
+                        :style="{ width: `${progressPercent}%` }"
+                    />
+                    <div
+                        class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-7 h-7 rounded-full bg-navy-900 border-2 border-gold-400 text-gold-400 flex items-center justify-center shadow-md transition-all duration-500"
+                        :style="{ left: `${progressPercent}%` }"
+                    >
+                        <Ship :size="13" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -265,10 +278,10 @@ const nextStep = () => {
         >
             <div class="grid grid-cols-1 lg:grid-cols-12">
                 <!-- Left Highlight Column -->
-                <div class="lg:col-span-5 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-800 text-white p-7 sm:p-9 flex flex-col justify-between relative overflow-hidden">
+                <div class="lg:col-span-5 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-800 text-white p-6 sm:p-9 flex flex-col justify-between relative overflow-hidden">
                     <div class="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-gold-500/10 blur-2xl pointer-events-none" />
                     <div>
-                        <div class="flex items-center justify-between gap-2 mb-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-6">
                             <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-white/10 text-gold-400 border border-white/15">
                                 STEP {{ String(activeStep.step_number).padStart(2, '0') }} / {{ String(steps.length).padStart(2, '0') }}
                             </span>
@@ -280,8 +293,16 @@ const nextStep = () => {
                             </span>
                         </div>
 
-                        <div class="w-14 h-14 rounded-2xl bg-gold-500/15 border border-gold-400/30 flex items-center justify-center text-gold-400 mb-5">
-                            <IconMapper :name="activeStep.icon" :size="28" />
+                        <div class="flex items-center justify-between gap-4 mb-5">
+                            <div class="w-14 h-14 rounded-2xl bg-gold-500/15 border border-gold-400/30 flex items-center justify-center text-gold-400 shrink-0">
+                                <IconMapper :name="activeStep.icon" :size="28" />
+                            </div>
+                            <div class="rounded-2xl bg-white/8 border border-white/15 px-3 py-1.5 backdrop-blur-sm">
+                                <LottiePlayer
+                                    :animation-data="activePhaseAnimation"
+                                    class="w-24 h-16 sm:w-28 sm:h-20"
+                                />
+                            </div>
                         </div>
 
                         <h3 class="text-2xl sm:text-3xl font-extrabold leading-tight text-white">

@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { ref } from 'vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
@@ -59,7 +59,7 @@ const remove = (faq) => {
 </script>
 
 <template>
-    <Head title="Kelola FAQ â€” CMS" />
+    <Head title="Kelola FAQ — CMS" />
 
     <AdminLayout title="Kelola FAQ">
         <div class="flex flex-wrap items-center justify-between gap-4 mb-6">

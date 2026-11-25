@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { ref } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
@@ -39,7 +39,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head :title="post ? 'Edit Artikel â€” CMS' : 'Tulis Artikel Baru â€” CMS'" />
+    <Head :title="post ? 'Edit Artikel — CMS' : 'Tulis Artikel Baru — CMS'" />
 
     <AdminLayout :title="post ? 'Edit Artikel' : 'Tulis Artikel Baru'">
         <div class="mb-5">
@@ -67,7 +67,7 @@ const submit = () => {
                         <textarea v-model="form.excerpt_id" rows="2" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm" />
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">Isi Artikel (WYSIWYG â€” ID)</label>
+                        <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">Isi Artikel (WYSIWYG — ID)</label>
                         <RichTextEditor v-model="form.body_id" />
                     </div>
                 </div>
@@ -82,7 +82,7 @@ const submit = () => {
                         <textarea v-model="form.excerpt_en" rows="2" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm" />
                     </div>
                     <div>
-                        <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">Article Body (WYSIWYG â€” EN)</label>
+                        <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">Article Body (WYSIWYG — EN)</label>
                         <RichTextEditor v-model="form.body_en" />
                     </div>
                 </div>

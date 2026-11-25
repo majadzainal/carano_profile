@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { ref } from 'vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
@@ -87,7 +87,7 @@ const remove = (svc) => {
 </script>
 
 <template>
-    <Head title="Kelola Layanan â€” CMS" />
+    <Head title="Kelola Layanan — CMS" />
 
     <AdminLayout title="Layanan Logistik">
         <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
@@ -118,7 +118,7 @@ const remove = (svc) => {
                 </div>
                 <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
                     <span class="text-[11px] font-bold" :class="svc.is_active ? 'text-emerald-600' : 'text-slate-400'">
-                        {{ svc.is_active ? 'Aktif' : 'Nonaktif' }} â€¢ Urutan #{{ svc.sort_order }}
+                        {{ svc.is_active ? 'Aktif' : 'Nonaktif' }} • Urutan #{{ svc.sort_order }}
                     </span>
                     <div class="flex gap-2">
                         <button type="button" @click="openEdit(svc)" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-ocean-50 text-navy-900 text-xs font-bold cursor-pointer">
@@ -162,11 +162,11 @@ const remove = (svc) => {
                             <textarea v-model="form.short_desc_id" rows="2" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm" />
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Daftar Keunggulan (ID â€” 1 baris per poin)</label>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Daftar Keunggulan (ID — 1 baris per poin)</label>
                             <textarea v-model="featuresIdText" rows="3" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs" />
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Konten Detail Layanan (WYSIWYG â€” ID)</label>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Konten Detail Layanan (WYSIWYG — ID)</label>
                             <RichTextEditor v-model="form.body_id" />
                         </div>
                     </div>
@@ -187,11 +187,11 @@ const remove = (svc) => {
                             <textarea v-model="form.short_desc_en" rows="2" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm" />
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Features (EN â€” 1 line per item)</label>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Features (EN — 1 line per item)</label>
                             <textarea v-model="featuresEnText" rows="3" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs" />
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Full Content (WYSIWYG â€” EN)</label>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Full Content (WYSIWYG — EN)</label>
                             <RichTextEditor v-model="form.body_en" />
                         </div>
                     </div>

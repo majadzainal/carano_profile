@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { ref } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
@@ -23,7 +23,7 @@ const remove = (post) => {
 </script>
 
 <template>
-    <Head title="Artikel & Insight â€” CMS" />
+    <Head title="Artikel & Insight — CMS" />
 
     <AdminLayout title="Artikel & Insight (Blog)">
         <div class="flex flex-wrap items-center justify-between gap-4 mb-6">

@@ -71,7 +71,7 @@ const marqueeTags = computed(() => [
         <MaritimeParallaxHero :hero="hero" :settings="settings" :locale="locale" />
 
         <!-- 1B. BRIGHT MARITIME CORRIDOR MARQUEE STRIP -->
-        <div class="bg-ocean-50 border-b border-slate-200/80 py-3.5 overflow-hidden">
+        <div class="w-full max-w-full bg-ocean-50 border-b border-slate-200/80 py-3.5 overflow-hidden relative">
             <div class="animate-marquee items-center gap-8">
                 <template v-for="repeat in 2" :key="repeat">
                     <div
@@ -93,7 +93,7 @@ const marqueeTags = computed(() => [
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
                     <MotionReveal v-for="(m, idx) in metricItems" :key="idx" :delay="idx * 90">
-                        <div class="p-6 rounded-2xl bg-ocean-50/70 hover:bg-white border border-slate-200/80 hover:border-gold-500/50 hover:shadow-lg transition-all h-full">
+                        <div class="card-interactive p-6 rounded-2xl bg-ocean-50/70 hover:bg-white border border-slate-200/80 h-full">
                             <div class="w-8 h-1 rounded-full bg-gold-500 mb-3" />
                             <div class="flex items-baseline gap-2">
                                 <span class="text-4xl sm:text-5xl font-extrabold text-navy-900">
@@ -128,11 +128,11 @@ const marqueeTags = computed(() => [
                         </div>
 
                         <!-- Interactive View Mode Switcher -->
-                        <div class="inline-flex items-center bg-slate-100 p-1 rounded-full border border-slate-200 shrink-0 self-start">
+                        <div class="inline-flex flex-wrap items-center bg-slate-100 p-1 rounded-2xl sm:rounded-full border border-slate-200 max-w-full self-start">
                             <button
                                 type="button"
                                 @click="challengeMode = 'compare'"
-                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition cursor-pointer"
+                                class="px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer"
                                 :class="challengeMode === 'compare' ? 'bg-navy-900 text-white shadow-xs' : 'text-slate-600'"
                             >
                                 {{ locale === 'en' ? 'Compare' : 'Bandingkan' }}
@@ -140,7 +140,7 @@ const marqueeTags = computed(() => [
                             <button
                                 type="button"
                                 @click="challengeMode = 'problem'"
-                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition cursor-pointer"
+                                class="px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer"
                                 :class="challengeMode === 'problem' ? 'bg-rose-600 text-white shadow-xs' : 'text-slate-600'"
                             >
                                 {{ locale === 'en' ? 'Risks' : 'Risiko Impor' }}
@@ -148,7 +148,7 @@ const marqueeTags = computed(() => [
                             <button
                                 type="button"
                                 @click="challengeMode = 'solution'"
-                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition cursor-pointer"
+                                class="px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer"
                                 :class="challengeMode === 'solution' ? 'bg-gold-500 text-navy-950 shadow-xs' : 'text-slate-600'"
                             >
                                 {{ locale === 'en' ? 'CARANO Way' : 'Solusi CARANO' }}
@@ -262,7 +262,7 @@ const marqueeTags = computed(() => [
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <MotionReveal v-for="(service, sIdx) in services" :key="service.id" :delay="sIdx * 90">
-                        <div class="group h-full rounded-3xl border border-slate-200 bg-white overflow-hidden hover:border-navy-800/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+                        <div class="card-interactive group h-full rounded-3xl border border-slate-200 bg-white overflow-hidden flex flex-col justify-between">
                             <div>
                                 <!-- Sunlit Maritime Illustration Cover -->
                                 <div v-if="service.image_path" class="relative h-48 overflow-hidden bg-ocean-100">
@@ -350,7 +350,7 @@ const marqueeTags = computed(() => [
         <section class="py-20 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-                    <MotionReveal class="lg:col-span-5" direction="left">
+                    <MotionReveal class="lg:col-span-5">
                         <span class="text-xs font-bold tracking-widest uppercase text-gold-600">{{ whyUs.badge }}</span>
                         <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-navy-950 leading-tight">
                             {{ whyUs.title }}

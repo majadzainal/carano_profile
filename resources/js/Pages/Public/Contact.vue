@@ -5,6 +5,8 @@ import MainLayout from '@/Layouts/MainLayout.vue';
 import PageParallaxHero from '@/Components/PageParallaxHero.vue';
 import MotionReveal from '@/Components/MotionReveal.vue';
 import FaqAccordion from '@/Components/FaqAccordion.vue';
+import LottiePlayer from '@/Components/LottiePlayer.vue';
+import customsVerifiedAnim from '@/assets/lottie/customs-verified.json';
 import {
     CheckCircle2,
     Clock,
@@ -82,9 +84,9 @@ const mapEmbedSrc = computed(() => {
                     <div class="bg-white rounded-3xl border border-slate-200 p-7 sm:p-9 shadow-sm">
                         <div
                             v-if="flashSuccess"
-                            class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-start gap-3 text-sm font-medium"
+                            class="mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-center gap-3 text-sm font-medium"
                         >
-                            <CheckCircle2 :size="20" class="text-emerald-600 shrink-0 mt-0.5" />
+                            <LottiePlayer :animation-data="customsVerifiedAnim" :loop="false" class="w-14 h-12 shrink-0" />
                             <div>{{ flashSuccess }}</div>
                         </div>
 
@@ -210,7 +212,7 @@ const mapEmbedSrc = computed(() => {
                                 <button
                                     type="submit"
                                     :disabled="form.processing"
-                                    class="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gold-500 hover:bg-gold-400 text-navy-950 font-extrabold text-sm shadow-md transition disabled:opacity-60 cursor-pointer"
+                                    class="btn-gold-sheen inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-gold-500 hover:bg-gold-400 text-navy-950 font-extrabold text-sm shadow-md disabled:opacity-60 cursor-pointer"
                                 >
                                     <Send :size="16" />
                                     <span>{{ form.processing ? 'Mengirim...' : locale === 'en' ? 'Submit Quotation Request' : 'Kirim Permintaan Penawaran' }}</span>

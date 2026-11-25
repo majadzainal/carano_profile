@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { ref } from 'vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
@@ -57,7 +57,7 @@ const statusBadge = (s) => ({
 </script>
 
 <template>
-    <Head title="Inbox Penawaran (RFQ) â€” CMS" />
+    <Head title="Inbox Penawaran (RFQ) — CMS" />
 
     <AdminLayout title="Inbox Penawaran (RFQ Leads)">
         <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
@@ -95,10 +95,10 @@ const statusBadge = (s) => ({
                         </span>
                     </div>
                     <div class="text-xs" :class="selected?.id === inq.id ? 'text-gold-400' : 'text-ocean-600'">
-                        {{ inq.origin_country }} â†’ {{ inq.destination_port }}
+                        {{ inq.origin_country }} → {{ inq.destination_port }}
                     </div>
                     <div class="text-xs mt-1 truncate" :class="selected?.id === inq.id ? 'text-slate-300' : 'text-slate-500'">
-                        {{ inq.contact_name }} â€¢ {{ inq.phone }}
+                        {{ inq.contact_name }} • {{ inq.phone }}
                     </div>
                 </button>
                 <div v-if="!inquiries.length" class="p-8 bg-white rounded-2xl border border-slate-200 text-center text-sm text-slate-400">
@@ -111,7 +111,7 @@ const statusBadge = (s) => ({
                 <div class="flex flex-wrap items-start justify-between gap-4 pb-5 border-b border-slate-100">
                     <div>
                         <h2 class="text-xl font-extrabold text-navy-950">{{ selected.company_name }}</h2>
-                        <div class="text-sm text-slate-600 mt-1">{{ selected.contact_name }} â€¢ {{ selected.email }} â€¢ {{ selected.phone }}</div>
+                        <div class="text-sm text-slate-600 mt-1">{{ selected.contact_name }} • {{ selected.email }} • {{ selected.phone }}</div>
                     </div>
                     <div class="flex gap-2">
                         <a

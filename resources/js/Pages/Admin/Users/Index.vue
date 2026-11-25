@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { ref } from 'vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
@@ -49,7 +49,7 @@ const remove = (u) => {
 </script>
 
 <template>
-    <Head title="Manajemen Pengguna â€” CMS" />
+    <Head title="Manajemen Pengguna — CMS" />
 
     <AdminLayout title="Pengguna CMS">
         <div class="flex flex-wrap items-center justify-between gap-4 mb-6">

@@ -42,7 +42,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @inertiaHead
 </head>
-<body class="antialiased bg-white text-slate-900 selection:bg-gold-400/30 selection:text-navy-900">
+<body class="antialiased bg-white text-slate-900 w-full max-w-[100vw] overflow-x-clip selection:bg-gold-400/30 selection:text-navy-900">
     @inertia
 </body>
 </html>

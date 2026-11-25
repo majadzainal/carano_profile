@@ -1,6 +1,8 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import LottiePlayer from '@/Components/LottiePlayer.vue';
+import portRadarAnim from '@/assets/lottie/port-radar.json';
 import {
     Anchor,
     ArrowDown,
@@ -64,6 +66,10 @@ const handleScroll = () => {
 };
 
 const handleMouseMove = (e) => {
+    if (window.innerWidth < 1024) {
+        mouseX.value = 0;
+        return;
+    }
     const cx = window.innerWidth / 2;
     mouseX.value = (e.clientX - cx) / cx;
 };
@@ -111,13 +117,13 @@ const photoCardStyle = computed(() => ({
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 sm:pt-16 sm:pb-24">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
                 <!-- Left Editorial Headline (Crisp Royal Navy on Bright Surface) -->
-                <div class="lg:col-span-7">
-                    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/95 border border-slate-200 shadow-2xs text-navy-900 text-xs font-bold tracking-wider uppercase mb-6">
-                        <span class="w-2 h-2 rounded-full bg-gold-500 animate-pulse" />
-                        <span>{{ hero.badge || 'INTERNATIONAL FREIGHT FORWARDER COMPANY' }}</span>
+                <div class="lg:col-span-7 min-w-0">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 border border-slate-200 shadow-2xs text-navy-900 text-[11px] sm:text-xs font-bold tracking-wider uppercase mb-5 max-w-full">
+                        <span class="w-2 h-2 rounded-full bg-gold-500 animate-pulse shrink-0" />
+                        <span class="leading-snug">{{ hero.badge || 'INTERNATIONAL FREIGHT FORWARDER COMPANY' }}</span>
                     </div>
 
-                    <h1 class="text-3xl sm:text-5xl lg:text-[3.35rem] font-extrabold text-navy-950 leading-[1.12] tracking-tight">
+                    <h1 class="text-[1.85rem] sm:text-5xl lg:text-[3.35rem] font-extrabold text-navy-950 leading-[1.15] sm:leading-[1.12] tracking-tight break-words">
                         {{ hero.title }}
                     </h1>
 
@@ -129,10 +135,10 @@ const photoCardStyle = computed(() => ({
                     <div class="mt-8 flex flex-wrap items-center gap-4">
                         <Link
                             :href="hero.cta_url || '/kontak'"
-                            class="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-gold-500 hover:bg-gold-400 text-navy-950 font-extrabold text-sm shadow-lg shadow-gold-500/25 transition-all hover:-translate-y-0.5"
+                            class="btn-gold-sheen group inline-flex items-center gap-2 px-7 py-4 rounded-full bg-gold-500 hover:bg-gold-400 text-navy-950 font-extrabold text-sm shadow-lg shadow-gold-500/25 hover:-translate-y-0.5"
                         >
                             <span>{{ hero.cta_label || (locale === 'en' ? 'Request a Quote' : 'Konsultasi Pengiriman') }}</span>
-                            <ArrowUpRight :size="18" />
+                            <ArrowUpRight :size="18" class="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                         </Link>
 
                         <a
@@ -163,7 +169,7 @@ const photoCardStyle = computed(() => ({
                 </div>
 
                 <!-- Right Visual Showcase: Sunlit Port Photo Card + Interactive Port Gateway Selector -->
-                <div class="lg:col-span-5 will-change-transform" :style="photoCardStyle">
+                <div class="lg:col-span-5 min-w-0 will-change-transform" :style="photoCardStyle">
                     <div class="rounded-[2rem] bg-white/95 backdrop-blur-xl border border-slate-200/90 shadow-[0_24px_60px_rgba(10,42,102,0.12)] overflow-hidden">
                         <!-- Sunlit Maritime Port Photograph with Live Animated Vessel Badge -->
                         <div class="relative h-56 sm:h-60 overflow-hidden bg-ocean-100">
@@ -229,9 +235,9 @@ const photoCardStyle = computed(() => ({
                             </div>
 
                             <div class="p-4 rounded-2xl bg-ocean-50 border border-slate-200/80 space-y-2">
-                                <div class="flex items-center justify-between">
-                                    <span class="inline-flex items-center gap-1.5 text-sm font-extrabold text-navy-950">
-                                        <Anchor :size="15" class="text-gold-600" />
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <span class="inline-flex items-center gap-2 text-sm font-extrabold text-navy-950">
+                                        <LottiePlayer :animation-data="portRadarAnim" class="w-7 h-7 shrink-0" />
                                         Pelabuhan {{ activePort.name }}
                                     </span>
                                     <span class="text-xs font-bold text-ocean-600">{{ activePort.city }}</span>
@@ -248,7 +254,7 @@ const photoCardStyle = computed(() => ({
                                 </div>
                             </div>
 
-                            <div class="flex items-center justify-between pt-1">
+                            <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
                                 <Link
                                     :href="`/kontak?destination=${encodeURIComponent('Pelabuhan ' + activePort.name)}`"
                                     class="inline-flex items-center gap-1.5 text-xs font-extrabold text-navy-900 hover:text-gold-600 transition"

@@ -27,11 +27,14 @@
 }
 
 @layer base {
-    html {
+    html, body, #app {
         scroll-behavior: smooth;
         font-family: var(--font-sans);
         color: #0F172A;
         background-color: #FFFFFF;
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: clip;
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -211,4 +214,57 @@
 .animate-float-slow {
     animation: floatSlow 6s ease-in-out infinite;
 }
+
+/* ================================================================
+   Hacobu-Inspired Micro-Interactions (Tactile Sheen & Card Polish)
+   ================================================================ */
+.btn-gold-sheen {
+    position: relative;
+    overflow: hidden;
+    transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms ease, background-color 180ms ease;
+}
+.btn-gold-sheen::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: -130%;
+    width: 60%;
+    height: 180%;
+    background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.45) 50%, transparent 80%);
+    transform: skewX(-20deg);
+    transition: left 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+}
+.btn-gold-sheen:hover::after {
+    left: 145%;
+}
+.btn-gold-sheen:active {
+    transform: scale(0.97);
+}
+
+.card-interactive {
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease, border-color 220ms ease;
+}
+.card-interactive:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 44px -16px rgba(10, 42, 102, 0.14);
+    border-color: rgba(230, 169, 46, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-marquee,
+    .animate-route-dash,
+    .animate-ship-bob,
+    .animate-crane-trolley,
+    .animate-container-hoist,
+    .animate-wave-slow,
+    .animate-wave-fast,
+    .animate-float-slow {
+        animation: none !important;
+    }
+    .btn-gold-sheen::after {
+        display: none;
+    }
+}
+
 

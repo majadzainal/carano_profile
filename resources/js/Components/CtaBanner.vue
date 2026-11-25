@@ -36,10 +36,10 @@ defineProps({
                 <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3">
                     <Link
                         :href="section?.cta_url || '/kontak'"
-                        class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-gold-500 hover:bg-gold-400 text-navy-950 font-extrabold text-sm shadow-lg shadow-gold-500/20 transition"
+                        class="btn-gold-sheen group inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-gold-500 hover:bg-gold-400 text-navy-950 font-extrabold text-sm shadow-lg shadow-gold-500/20"
                     >
                         <span>{{ section?.cta_label || (locale === 'en' ? 'Request a Quote' : 'Minta Penawaran') }}</span>
-                        <ArrowUpRight :size="18" />
+                        <ArrowUpRight :size="18" class="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </Link>
                     <Link
                         v-if="section?.secondary_cta_label"

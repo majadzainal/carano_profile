@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { computed } from 'vue';
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import { Lock } from 'lucide-vue-next';
@@ -18,7 +18,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Login CMS â€” PT. CARANO UTAMA LOGISTIK" />
+    <Head title="Login CMS — PT. CARANO UTAMA LOGISTIK" />
 
     <div class="min-h-screen bg-gradient-to-br from-navy-950 via-navy-900 to-navy-800 flex items-center justify-center p-4">
         <div class="w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-white/10">
@@ -50,7 +50,7 @@ const submit = () => {
                         v-model="form.password"
                         type="password"
                         required
-                        placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                        placeholder="password"
                         class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm focus:border-navy-800 focus:ring-2 focus:ring-navy-800/15 outline-none"
                     />
                     <p v-if="form.errors.password" class="text-xs text-rose-600 mt-1">{{ form.errors.password }}</p>
@@ -73,7 +73,7 @@ const submit = () => {
 
             <div class="mt-6 pt-5 border-t border-slate-100 text-center">
                 <Link href="/" class="text-xs font-semibold text-ocean-600 hover:text-navy-900">
-                    â† Kembali ke Website Utama
+                    ← Kembali ke Website Utama
                 </Link>
             </div>
         </div>

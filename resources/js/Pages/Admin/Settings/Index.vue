@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { computed, ref } from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
@@ -57,7 +57,7 @@ const submit = () => {
 </script>
 
 <template>
-    <Head title="Pengaturan Situs â€” CMS" />
+    <Head title="Pengaturan Situs — CMS" />
 
     <AdminLayout title="Pengaturan Situs & Identitas">
         <div class="flex flex-wrap gap-2 mb-6">

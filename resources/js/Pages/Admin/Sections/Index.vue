@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { ref } from 'vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
@@ -85,7 +85,7 @@ const onSelectMedia = (media) => {
 </script>
 
 <template>
-    <Head title="Konten Halaman â€” CMS" />
+    <Head title="Konten Halaman — CMS" />
 
     <AdminLayout title="Editor Konten Halaman">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -167,7 +167,7 @@ const onSelectMedia = (media) => {
                             <textarea v-model="form.subtitle_id" rows="3" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm" />
                         </div>
                         <div v-if="selected.section_key === 'about_story' || form.body_id">
-                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">Konten Lengkap (WYSIWYG â€” ID)</label>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">Konten Lengkap (WYSIWYG — ID)</label>
                             <RichTextEditor v-model="form.body_id" />
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -196,7 +196,7 @@ const onSelectMedia = (media) => {
                             <textarea v-model="form.subtitle_en" rows="3" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm" />
                         </div>
                         <div v-if="selected.section_key === 'about_story' || form.body_en">
-                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">Full Content (WYSIWYG â€” EN)</label>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">Full Content (WYSIWYG — EN)</label>
                             <RichTextEditor v-model="form.body_en" />
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -239,7 +239,7 @@ const onSelectMedia = (media) => {
                     </div>
 
                     <div v-if="extraJsonText">
-                        <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">Data Terstruktur Section (Metrics / Kartu / Visi & Misi â€” JSON)</label>
+                        <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">Data Terstruktur Section (Metrics / Kartu / Visi & Misi — JSON)</label>
                         <textarea v-model="extraJsonText" rows="8" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-xs font-mono bg-slate-50" />
                     </div>
 

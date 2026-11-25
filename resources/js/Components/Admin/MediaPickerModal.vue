@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { ref, watch } from 'vue';
 import { FileText, Upload, X } from 'lucide-vue-next';
 

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { Link, router, usePage } from '@inertiajs/vue3';
+import BackToTop from '@/Components/BackToTop.vue';
 import {
     ArrowUpRight,
     Clock,
@@ -21,6 +22,7 @@ const currentPath = computed(() => page.props.currentPath || '/');
 
 const mobileMenuOpen = ref(false);
 const isScrolled = ref(false);
+const scrollProgress = ref(0);
 
 const navItems = computed(() =>
     locale.value === 'en'
@@ -62,7 +64,10 @@ const whatsappUrl = computed(() => {
 });
 
 const onScroll = () => {
-    isScrolled.value = window.scrollY > 16;
+    const top = window.scrollY || 0;
+    isScrolled.value = top > 16;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    scrollProgress.value = total > 0 ? Math.min(100, Math.max(0, (top / total) * 100)) : 0;
 };
 
 onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }));
@@ -70,30 +75,30 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll));
 </script>
 
 <template>
-    <div class="min-h-screen flex flex-col bg-white text-slate-900">
+    <div class="min-h-screen w-full max-w-[100vw] flex flex-col bg-white text-slate-900 overflow-x-clip">
         <!-- Sticky Enterprise Header (Hacobu-inspired) -->
         <header
-            class="sticky top-0 z-50 transition-all duration-300"
+            class="sticky top-0 z-50 w-full max-w-[100vw] overflow-x-clip transition-all duration-300"
             :class="
                 isScrolled
                     ? 'bg-white/95 backdrop-blur-md shadow-[0_6px_30px_rgba(7,26,62,0.07)] border-b border-slate-200/80'
                     : 'bg-white border-b border-slate-100'
             "
         >
-            <div class="max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between gap-4 h-20">
-                    <!-- Brand Logo -->
-                    <Link href="/" class="flex items-center gap-3 group shrink-0">
+            <div class="w-full max-w-[1380px] mx-auto px-3 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between gap-2 sm:gap-4 h-16 sm:h-20 min-w-0">
+                    <!-- Brand Logo (Mobile-Safe, Never Overflows 320px-390px Viewport) -->
+                    <Link href="/" class="flex items-center gap-2 sm:gap-3 group min-w-0 flex-1 overflow-hidden xl:flex-initial xl:shrink-0">
                         <img
                             :src="settings.logo_mark || '/images/brand/logo-carano-mark.png'"
                             :alt="settings.company_name || 'PT. CARANO UTAMA LOGISTIK'"
-                            class="h-11 w-11 object-contain transition-transform duration-300 group-hover:scale-105 shrink-0"
+                            class="h-8 w-8 sm:h-11 sm:w-11 object-contain transition-transform duration-300 group-hover:scale-105 shrink-0"
                         />
-                        <div class="leading-tight whitespace-nowrap">
-                            <span class="block text-sm sm:text-[15px] font-extrabold tracking-tight text-navy-900">
+                        <div class="leading-tight min-w-0 flex-1 overflow-hidden">
+                            <span class="block text-[11px] sm:text-[15px] font-extrabold tracking-tight text-navy-900 truncate">
                                 {{ settings.company_name || 'PT. CARANO UTAMA LOGISTIK' }}
                             </span>
-                            <span class="block text-[9px] font-bold tracking-wider text-gold-600 uppercase">
+                            <span class="block text-[7.5px] sm:text-[9px] font-bold tracking-normal sm:tracking-wider text-gold-600 uppercase truncate">
                                 INTERNATIONAL FREIGHT FORWARDER COMPANY
                             </span>
                         </div>
@@ -161,31 +166,31 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll));
 
                         <Link
                             href="/kontak"
-                            class="inline-flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-navy-950 bg-gold-500 hover:bg-gold-400 rounded-full shadow-sm hover:shadow transition-all whitespace-nowrap shrink-0"
+                            class="btn-gold-sheen group inline-flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-navy-950 bg-gold-500 hover:bg-gold-400 rounded-full shadow-sm hover:shadow whitespace-nowrap shrink-0"
                         >
                             <span>{{ locale === 'en' ? 'Request Quote' : 'Minta Penawaran' }}</span>
-                            <ArrowUpRight :size="15" class="shrink-0" />
+                            <ArrowUpRight :size="15" class="shrink-0 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                         </Link>
                     </div>
 
                     <!-- Mobile / Tablet Menu Trigger -->
-                    <div class="flex xl:hidden items-center gap-2 shrink-0">
+                    <div class="flex xl:hidden items-center gap-1.5 shrink-0">
                         <button
                             type="button"
                             @click="switchLocale(locale === 'id' ? 'en' : 'id')"
-                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 text-navy-900 whitespace-nowrap"
+                            class="inline-flex items-center gap-1 px-2 py-1 text-[11px] font-semibold rounded-lg bg-slate-100 text-navy-900 whitespace-nowrap"
                         >
-                            <Globe :size="14" />
+                            <Globe :size="13" />
                             {{ locale.toUpperCase() }}
                         </button>
                         <button
                             type="button"
                             @click="mobileMenuOpen = !mobileMenuOpen"
-                            class="p-2 rounded-lg text-navy-900 hover:bg-slate-100"
+                            class="p-1.5 rounded-lg text-navy-900 hover:bg-slate-100"
                             aria-label="Toggle navigation"
                         >
-                            <X v-if="mobileMenuOpen" :size="24" />
-                            <Menu v-else :size="24" />
+                            <X v-if="mobileMenuOpen" :size="22" />
+                            <Menu v-else :size="22" />
                         </button>
                     </div>
                 </div>
@@ -228,15 +233,23 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll));
                     </div>
                 </div>
             </div>
+
+            <!-- Subtle Top Scroll Reading Progress Bar (Carano Gold) -->
+            <div class="w-full h-[2.5px] bg-transparent overflow-hidden">
+                <div
+                    class="h-full bg-gradient-to-r from-ocean-600 via-gold-500 to-gold-400 transition-[width] duration-75 ease-out"
+                    :style="{ width: `${scrollProgress}%` }"
+                />
+            </div>
         </header>
 
         <!-- Page Content -->
-        <main class="flex-1">
+        <main class="flex-1 w-full overflow-x-clip">
             <slot />
         </main>
 
         <!-- Enterprise Footer (Deep Royal Navy) -->
-        <footer class="bg-navy-950 text-slate-300 border-t border-white/10">
+        <footer class="w-full max-w-[100vw] overflow-x-clip bg-navy-950 text-slate-300 border-t border-white/10">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
                     <!-- Brand Column -->
@@ -245,10 +258,10 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll));
                             <img
                                 :src="settings.logo_dark || '/images/brand/logo-carano-dark.png'"
                                 :alt="settings.company_name || 'PT. CARANO UTAMA LOGISTIK'"
-                                class="h-16 w-16 object-contain"
+                                class="h-14 w-14 sm:h-16 sm:w-16 object-contain shrink-0"
                             />
-                            <div>
-                                <div class="text-white font-extrabold text-lg tracking-tight">
+                            <div class="min-w-0">
+                                <div class="text-white font-extrabold text-base sm:text-lg tracking-tight break-words">
                                     {{ settings.company_name || 'PT. CARANO UTAMA LOGISTIK' }}
                                 </div>
                                 <div class="text-xs text-gold-400 font-medium mt-0.5">
@@ -263,7 +276,7 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll));
                                     : 'Layanan logistik impor terintegrasi mencakup sea freight, origin handling, kepabeanan bea cukai, serta distribusi darat & udara yang menghubungkan pusat industri Asia ke Indonesia.'
                             }}
                         </p>
-                        <div class="flex items-center gap-3 pt-1">
+                        <div class="flex flex-wrap items-center gap-3 pt-1">
                             <a
                                 :href="whatsappUrl"
                                 target="_blank"
@@ -387,6 +400,9 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll));
                 </div>
             </div>
         </footer>
+
+        <!-- Circular Progress Back-to-Top Button -->
+        <BackToTop />
 
         <!-- Floating WhatsApp Quick Button -->
         <a

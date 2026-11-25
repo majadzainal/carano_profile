@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { ref } from 'vue';
 import { Head, router, useForm } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
@@ -78,7 +78,7 @@ const remove = (step) => {
 </script>
 
 <template>
-    <Head title="Kelola Road Map Shipment â€” CMS" />
+    <Head title="Kelola Road Map Shipment — CMS" />
 
     <AdminLayout title="Road Map Shipment (10 Tahap)">
         <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
@@ -195,11 +195,11 @@ const remove = (step) => {
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Poin Utama (ID â€” 1 baris per poin)</label>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Poin Utama (ID — 1 baris per poin)</label>
                             <textarea v-model="highlightsIdText" rows="3" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs" />
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Highlights (EN â€” 1 line per item)</label>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Highlights (EN — 1 line per item)</label>
                             <textarea v-model="highlightsEnText" rows="3" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-xs" />
                         </div>
                     </div>

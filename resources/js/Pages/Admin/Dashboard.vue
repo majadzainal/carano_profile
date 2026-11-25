@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import {
@@ -36,7 +36,7 @@ const statusBadge = (status) => {
         <!-- Quick Action Banner (WordPress Welcome Style) -->
         <div class="rounded-3xl bg-gradient-to-r from-navy-950 via-navy-900 to-navy-800 text-white p-6 sm:p-8 mb-6 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div>
-                <div class="text-xs font-bold uppercase tracking-wider text-gold-400">PT. CARANO UTAMA LOGISTIK â€” CMS</div>
+                <div class="text-xs font-bold uppercase tracking-wider text-gold-400">PT. CARANO UTAMA LOGISTIK — CMS</div>
                 <h2 class="text-2xl font-extrabold mt-1">Kelola Seluruh Konten Website dengan Mudah</h2>
                 <p class="text-sm text-slate-300 mt-1.5 max-w-2xl">
                     Edit teks halaman, 10 tahapan Road Map Shipment, layanan, peta rute, artikel blog, hingga brosur PDF secara langsung tanpa mengubah kode.
@@ -86,7 +86,7 @@ const statusBadge = (status) => {
                     <Route :size="18" class="text-gold-600" />
                 </div>
                 <div class="text-3xl font-extrabold text-navy-950 mt-2">{{ stats.roadmap_steps }}</div>
-                <div class="text-xs text-slate-400 mt-1">{{ stats.active_services }} layanan aktif â€¢ {{ stats.trade_hubs }} hub rute</div>
+                <div class="text-xs text-slate-400 mt-1">{{ stats.active_services }} layanan aktif {{ stats.trade_hubs }} hub rute</div>
             </Link>
 
             <Link href="/carano-admin/media" class="bg-white rounded-2xl p-5 border border-slate-200 hover:shadow-md transition">
@@ -117,7 +117,7 @@ const statusBadge = (status) => {
                             </span>
                         </div>
                         <div class="text-xs text-slate-500 mt-0.5">
-                            {{ inq.contact_name }} â€¢ {{ inq.origin_country }} â†’ {{ inq.destination_port }}
+                            {{ inq.contact_name }} • {{ inq.origin_country }} → {{ inq.destination_port }}
                         </div>
                         <p class="text-xs text-slate-600 mt-1.5 line-clamp-2">{{ inq.cargo_details }}</p>
                     </div>
