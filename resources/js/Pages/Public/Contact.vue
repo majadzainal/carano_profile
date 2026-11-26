@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { Head, useForm, usePage } from '@inertiajs/vue3';
 import MainLayout from '@/Layouts/MainLayout.vue';
 import PageParallaxHero from '@/Components/PageParallaxHero.vue';
@@ -32,6 +32,8 @@ const locale = computed(() => page.props.locale || 'id');
 const settings = computed(() => page.props.settings || {});
 const flashSuccess = computed(() => page.props.flash?.success);
 
+const shipmentDirection = ref(props.prefill?.direction === 'Ekspor' ? 'Ekspor' : 'Impor');
+
 const form = useForm({
     company_name: '',
     contact_name: '',
@@ -44,7 +46,10 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post('/kontak/inquiry', {
+    form.transform((data) => ({
+        ...data,
+        service_type: `[${shipmentDirection.value.toUpperCase()}] ${data.service_type || ''}`.trim().slice(0, 120),
+    })).post('/kontak/inquiry', {
         preserveScroll: true,
         onSuccess: () => form.reset('cargo_details'),
     });
@@ -52,7 +57,11 @@ const submit = () => {
 
 const waDirectUrl = computed(() => {
     const num = (settings.value.contact_whatsapp || '622138312253').replace(/[^0-9]/g, '');
-    const msg = `Halo PT. CARANO UTAMA LOGISTIK, saya ${form.contact_name || 'Calon Klien'} (${form.company_name || '-'}) ingin meminta penawaran rute ${form.origin_country} -> ${form.destination_port} (${form.service_type}). ${form.cargo_details || ''}`;
+    const routeText =
+        shipmentDirection.value === 'Ekspor'
+            ? `${form.destination_port} -> ${form.origin_country}`
+            : `${form.origin_country} -> ${form.destination_port}`;
+    const msg = `Halo PT. CARANO UTAMA LOGISTIK, saya ${form.contact_name || 'Calon Klien'} (${form.company_name || '-'}) ingin meminta penawaran [${shipmentDirection.value.toUpperCase()}] rute ${routeText} (${form.service_type}). ${form.cargo_details || ''}`;
     return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
 });
 
@@ -68,11 +77,11 @@ const mapEmbedSrc = computed(() => {
     <MainLayout>
         <PageParallaxHero
             :badge="locale === 'en' ? 'REQUEST A QUOTATION' : 'KONSULTASI & PENAWARAN'"
-            :title="locale === 'en' ? 'Start Your Import Shipment Consultation' : 'Mulai Konsultasi Pengiriman Impor Anda'"
+            :title="locale === 'en' ? 'Start Your Export or Import Consultation' : 'Mulai Konsultasi Pengiriman Ekspor & Impor'"
             :subtitle="
                 locale === 'en'
-                    ? 'Share your origin hub, destination port, and cargo volume. Our specialists will prepare a transparent quotation.'
-                    : 'Sampaikan negara asal, pelabuhan tujuan, dan estimasi volume kargo Anda. Tim konsultan PT. CARANO UTAMA LOGISTIK siap memberikan penawaran transparan.'
+                    ? 'Share your export or import route, port, and cargo volume. Our specialists will prepare a transparent quotation.'
+                    : 'Sampaikan kebutuhan ekspor atau impor, pelabuhan, dan estimasi volume kargo Anda. Tim konsultan PT. CARANO UTAMA LOGISTIK siap memberikan penawaran transparan.'
             "
             image="/images/illustrations/hero-port-maritime.jpg"
         />
@@ -91,6 +100,39 @@ const mapEmbedSrc = computed(() => {
                         </div>
 
                         <form @submit.prevent="submit" class="space-y-5">
+                            <!-- Export / Import Direction Selector -->
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-navy-900 mb-2">
+                                    {{ locale === 'en' ? 'Shipment Direction *' : 'Jenis Pengiriman *' }}
+                                </label>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button
+                                        type="button"
+                                        @click="shipmentDirection = 'Impor'"
+                                        class="py-3 px-4 rounded-xl border text-xs sm:text-sm font-extrabold transition cursor-pointer"
+                                        :class="
+                                            shipmentDirection === 'Impor'
+                                                ? 'bg-navy-900 text-white border-navy-900 shadow-sm'
+                                                : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-navy-800'
+                                        "
+                                    >
+                                        {{ locale === 'en' ? 'Import (Inbound to Indonesia)' : 'Impor (Masuk Indonesia)' }}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        @click="shipmentDirection = 'Ekspor'"
+                                        class="py-3 px-4 rounded-xl border text-xs sm:text-sm font-extrabold transition cursor-pointer"
+                                        :class="
+                                            shipmentDirection === 'Ekspor'
+                                                ? 'bg-gold-500 text-navy-950 border-gold-500 shadow-sm'
+                                                : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-gold-500'
+                                        "
+                                    >
+                                        {{ locale === 'en' ? 'Export (Outbound from Indonesia)' : 'Ekspor (Keluar Indonesia)' }}
+                                    </button>
+                                </div>
+                            </div>
+
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 <div>
                                     <label class="block text-xs font-bold uppercase tracking-wider text-navy-900 mb-1.5">
@@ -154,20 +196,36 @@ const mapEmbedSrc = computed(() => {
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                                 <div>
                                     <label class="block text-xs font-bold uppercase tracking-wider text-navy-900 mb-1.5">
-                                        {{ locale === 'en' ? 'Origin Country' : 'Negara Asal' }}
+                                        {{
+                                            shipmentDirection === 'Ekspor'
+                                                ? locale === 'en'
+                                                    ? 'Destination Country'
+                                                    : 'Negara Tujuan Ekspor'
+                                                : locale === 'en'
+                                                ? 'Origin Country'
+                                                : 'Negara Asal Impor'
+                                        }}
                                     </label>
                                     <select
                                         v-model="form.origin_country"
                                         class="w-full rounded-xl border border-slate-300 px-3.5 py-3 text-sm bg-white focus:border-navy-800 outline-none"
                                     >
                                         <option v-for="o in origins" :key="o.id" :value="o.name">{{ o.name }}</option>
-                                        <option value="Lainnya">Lainnya / Other</option>
+                                        <option value="Global / Negara Lain">Global / Negara Lain</option>
                                     </select>
                                 </div>
 
                                 <div>
                                     <label class="block text-xs font-bold uppercase tracking-wider text-navy-900 mb-1.5">
-                                        {{ locale === 'en' ? 'Destination Port' : 'Pelabuhan Tujuan' }}
+                                        {{
+                                            shipmentDirection === 'Ekspor'
+                                                ? locale === 'en'
+                                                    ? 'Indonesian Loading Port'
+                                                    : 'Pelabuhan Muat RI'
+                                                : locale === 'en'
+                                                ? 'Destination Port'
+                                                : 'Pelabuhan Tujuan RI'
+                                        }}
                                     </label>
                                     <select
                                         v-model="form.destination_port"

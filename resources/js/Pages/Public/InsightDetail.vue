@@ -59,7 +59,7 @@ const locale = computed(() => usePage().props.locale || 'id');
                     <div>
                         <div class="text-xs font-bold text-gold-600 uppercase tracking-wider">PT. CARANO UTAMA LOGISTIK</div>
                         <div class="text-xl font-extrabold text-navy-950 mt-1">
-                            {{ locale === 'en' ? 'Need help planning your next import?' : 'Butuh bantuan merencanakan impor Anda berikutnya?' }}
+                            {{ locale === 'en' ? 'Need help planning your next export or import?' : 'Butuh bantuan merencanakan ekspor atau impor Anda?' }}
                         </div>
                     </div>
                     <Link

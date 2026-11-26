@@ -43,16 +43,16 @@ const filteredFaqs = computed(() => {
 </script>
 
 <template>
-    <Head :title="locale === 'en' ? 'Logistics Insights & FAQ' : 'Insight Logistik & FAQ'" />
+    <Head :title="locale === 'en' ? 'Export & Import Logistics Insights' : 'Insight Logistik Ekspor & Impor'" />
 
     <MainLayout>
         <PageParallaxHero
             :badge="locale === 'en' ? 'KNOWLEDGE HUB' : 'PUSAT EDUKASI & BERITA'"
-            :title="locale === 'en' ? 'Import Logistics Insights & FAQ' : 'Insight Logistik Impor & FAQ'"
+            :title="locale === 'en' ? 'Export & Import Logistics Insights & FAQ' : 'Insight Logistik Ekspor, Impor & FAQ'"
             :subtitle="
                 locale === 'en'
-                    ? 'Practical articles on ocean freight, customs compliance, port strategy, and international cargo safety.'
-                    : 'Panduan praktis mengenai pengiriman laut, kepabeanan bea cukai, strategi pemilihan pelabuhan, dan keamanan kargo internasional.'
+                    ? 'Practical articles on ocean & air freight, PEB/PIB customs compliance, port strategy, and international cargo safety.'
+                    : 'Panduan praktis mengenai pengiriman laut & udara, kepabeanan ekspor (PEB) & impor (PIB), strategi pelabuhan, dan keamanan kargo internasional.'
             "
             image="/images/illustrations/port-customs-terminal.jpg"
         >

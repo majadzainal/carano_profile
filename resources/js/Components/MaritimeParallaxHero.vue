@@ -32,7 +32,7 @@ const ports = computed(() => [
         code: 'IDJKT',
         eta: props.locale === 'en' ? '7–14 Days Ocean Transit' : '7–14 Hari Pelayaran',
         origins: props.locale === 'en' ? 'Japan, China, Taiwan, Korea, Singapore' : 'Jepang, China, Taiwan, Korea, Singapura',
-        status: props.locale === 'en' ? 'Direct FCL / LCL Gateway' : 'Gerbang Utama FCL / LCL',
+        status: props.locale === 'en' ? 'Export & Import FCL / LCL' : 'Ekspor & Impor FCL / LCL',
     },
     {
         key: 'emas',
@@ -41,7 +41,7 @@ const ports = computed(() => [
         code: 'IDSRG',
         eta: props.locale === 'en' ? '9–16 Days Ocean Transit' : '9–16 Hari Pelayaran',
         origins: props.locale === 'en' ? 'Central Java Industrial Corridor' : 'Koridor Industri Jawa Tengah',
-        status: props.locale === 'en' ? 'Customs & Stripping Ready' : 'Siap Bea Cukai & Stripping',
+        status: props.locale === 'en' ? 'PEB / PIB & Stuffing Ready' : 'Siap PEB/PIB & Stuffing',
     },
     {
         key: 'perak',
@@ -50,7 +50,7 @@ const ports = computed(() => [
         code: 'IDSUB',
         eta: props.locale === 'en' ? '8–15 Days Ocean Transit' : '8–15 Hari Pelayaran',
         origins: props.locale === 'en' ? 'East Java & Eastern Indonesia Hub' : 'Hub Jawa Timur & Indonesia Timur',
-        status: props.locale === 'en' ? 'Full Container & Trucking Hub' : 'Hub Kontainer & Trucking',
+        status: props.locale === 'en' ? 'Export & Import Container Hub' : 'Hub Ekspor & Impor Kontainer',
     },
 ]);
 
@@ -188,8 +188,8 @@ const photoCardStyle = computed(() => ({
                                     class="h-7 w-7 object-contain"
                                 />
                                 <div class="leading-tight">
-                                    <div class="text-[10px] font-extrabold text-navy-950">CARANO CORRIDOR</div>
-                                    <div class="text-[9px] font-bold text-gold-600 uppercase">East Asia → Indonesia</div>
+                                    <div class="text-[10px] font-extrabold text-navy-950">EXPORT & IMPORT HUB</div>
+                                    <div class="text-[9px] font-bold text-gold-600 uppercase">Indonesia ⇄ Asia & Global</div>
                                 </div>
                             </div>
 
@@ -211,7 +211,7 @@ const photoCardStyle = computed(() => ({
                         <div class="p-5 sm:p-6 space-y-4">
                             <div>
                                 <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-                                    {{ locale === 'en' ? 'Select Indonesian Destination Port:' : 'Pilih Pelabuhan Tujuan Indonesia:' }}
+                                    {{ locale === 'en' ? 'Select Indonesian Export / Import Port:' : 'Pilih Pelabuhan Ekspor / Impor Indonesia:' }}
                                 </div>
                                 <div class="grid grid-cols-3 gap-2">
                                     <button

@@ -58,8 +58,8 @@ const whatsappUrl = computed(() => {
     const num = (settings.value.contact_whatsapp || '6281234567890').replace(/[^0-9]/g, '');
     const msg =
         locale.value === 'en'
-            ? 'Hello PT. CARANO UTAMA LOGISTIK, I would like to inquire about import shipping services.'
-            : 'Halo PT. CARANO UTAMA LOGISTIK, saya ingin berkonsultasi mengenai layanan pengiriman impor.';
+            ? 'Hello PT. CARANO UTAMA LOGISTIK, I would like to inquire about export/import shipping services.'
+            : 'Halo PT. CARANO UTAMA LOGISTIK, saya ingin berkonsultasi mengenai layanan pengiriman ekspor / impor.';
     return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
 });
 
@@ -272,8 +272,8 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll));
                         <p class="text-sm text-slate-400 leading-relaxed">
                             {{
                                 locale === 'en'
-                                    ? 'Integrated sea freight, origin handling, customs clearance, and multimodal delivery connecting East Asia’s industrial hubs with Indonesia’s primary maritime gateways.'
-                                    : 'Layanan logistik impor terintegrasi mencakup sea freight, origin handling, kepabeanan bea cukai, serta distribusi darat & udara yang menghubungkan pusat industri Asia ke Indonesia.'
+                                    ? 'Integrated export & import sea freight, air freight, PEB/PIB customs clearance, stuffing/stripping, and multimodal delivery connecting Indonesia with East Asia and global markets.'
+                                    : 'Layanan logistik ekspor & impor terintegrasi mencakup sea freight, air freight, kepabeanan bea cukai (PEB/PIB), stuffing/stripping, serta distribusi darat menghubungkan Indonesia ke Asia & global.'
                             }}
                         </p>
                         <div class="flex flex-wrap items-center gap-3 pt-1">
@@ -323,15 +323,15 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll));
                         <div class="space-y-3 text-sm">
                             <div>
                                 <div class="text-xs font-semibold text-gold-400 uppercase mb-1">
-                                    {{ locale === 'en' ? 'Origin Countries' : 'Negara Asal' }}
+                                    {{ locale === 'en' ? 'Export & Import Partner Hubs' : 'Negara Mitra Ekspor & Impor' }}
                                 </div>
                                 <p class="text-slate-400">
-                                    {{ locale === 'en' ? 'Japan • China • Taiwan • South Korea • Singapore' : 'Jepang • China • Taiwan • Korea • Singapura' }}
+                                    {{ locale === 'en' ? 'Japan • China • Taiwan • South Korea • Singapore & Global' : 'Jepang • China • Taiwan • Korea • Singapura & Global' }}
                                 </p>
                             </div>
                             <div>
                                 <div class="text-xs font-semibold text-gold-400 uppercase mb-1">
-                                    {{ locale === 'en' ? 'Indonesian Ports' : 'Pelabuhan Tujuan RI' }}
+                                    {{ locale === 'en' ? 'Indonesian Gateways' : 'Pelabuhan Utama RI' }}
                                 </div>
                                 <p class="text-slate-400">
                                     Tanjung Priok (Jakarta) • Tanjung Emas (Semarang) • Tanjung Perak (Surabaya)

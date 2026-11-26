@@ -64,7 +64,7 @@ const marqueeTags = computed(() => [
 </script>
 
 <template>
-    <Head :title="locale === 'en' ? 'Integrated International Import Logistics' : 'Solusi Logistik Impor Terintegrasi'" />
+    <Head :title="locale === 'en' ? 'Integrated International Export & Import Logistics' : 'Solusi Logistik Ekspor & Impor Terintegrasi'" />
 
     <MainLayout>
         <!-- 1. MULTI-LAYER MARITIME PORT & CONTAINER SHIP PARALLAX HERO -->
@@ -393,7 +393,7 @@ const marqueeTags = computed(() => [
                     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
                         <div>
                             <span class="text-xs font-bold tracking-widest uppercase text-gold-600">
-                                {{ locale === 'en' ? 'KNOWLEDGE HUB' : 'INSIGHT & EDUKASI IMPOR' }}
+                                {{ locale === 'en' ? 'KNOWLEDGE HUB' : 'INSIGHT & EDUKASI EKSPOR-IMPOR' }}
                             </span>
                             <h2 class="mt-2 text-3xl font-extrabold text-navy-950">
                                 {{ locale === 'en' ? 'Latest Logistics Insights' : 'Artikel & Panduan Terbaru' }}

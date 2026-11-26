@@ -51,12 +51,7 @@ if (file_exists($maintenance = __DIR__.'/../carano_core/storage/framework/mainte
 require __DIR__.'/../carano_core/vendor/autoload.php';
 
 $app = require_once __DIR__.'/../carano_core/bootstrap/app.php';
-$app->usePublicPath(__DIR__);
-
-$app->handleRequest(Request::capture());
 ```
-
-> **Penting**: Baris `$app->usePublicPath(__DIR__);` memastikan Laravel `@vite()` dan upload Media Library selalu membaca langsung dari `public_html/` (termasuk `public_html/build/manifest.json`), sehingga tidak terjadi *white screen* akibat ketidakcocokan `manifest.json` saat update build.
 
 5. Pastikan permission folder `carano_core/storage`, `carano_core/bootstrap/cache`, dan `public_html/uploads` adalah `775` (atau `755`).
 

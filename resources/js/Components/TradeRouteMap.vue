@@ -44,16 +44,16 @@ const routes = computed(() => {
             <div class="flex flex-wrap items-center justify-between gap-2 mb-3 px-1">
                 <div class="inline-flex items-center gap-2 text-xs font-bold tracking-wider uppercase text-gold-400">
                     <Ship :size="15" />
-                    <span>{{ locale === 'en' ? 'East Asia – Indonesia Sea Corridor' : 'Koridor Maritim Asia Timur – Indonesia' }}</span>
+                    <span>{{ locale === 'en' ? 'Export & Import Corridor (East Asia ⇄ Indonesia)' : 'Koridor Ekspor & Impor (Asia Timur ⇄ Indonesia)' }}</span>
                 </div>
                 <div class="flex items-center gap-4 text-[11px] text-slate-300">
                     <span class="inline-flex items-center gap-1.5">
                         <span class="w-2.5 h-2.5 rounded-full bg-gold-400" />
-                        {{ locale === 'en' ? 'Origin Hub' : 'Negara Asal' }}
+                        {{ locale === 'en' ? 'Asian Partner Hub' : 'Negara Mitra Asia' }}
                     </span>
                     <span class="inline-flex items-center gap-1.5">
                         <span class="w-2.5 h-2.5 rounded-full bg-sky-400" />
-                        {{ locale === 'en' ? 'Indonesian Port' : 'Pelabuhan Tujuan RI' }}
+                        {{ locale === 'en' ? 'Indonesian Port' : 'Pelabuhan Utama RI' }}
                     </span>
                 </div>
             </div>

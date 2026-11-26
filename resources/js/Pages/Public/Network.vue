@@ -18,7 +18,8 @@ const locale = computed(() => usePage().props.locale || 'id');
 const origins = computed(() => props.tradeHubs.filter((h) => h.type === 'origin'));
 const destinations = computed(() => props.tradeHubs.filter((h) => h.type === 'destination'));
 
-// Interactive Corridor Pairing Tool
+// Interactive Two-Way Corridor Pairing Tool (Import & Export)
+const pairDirection = ref('Impor');
 const pairOrigin = ref(origins.value[0]?.name || 'Jepang');
 const pairDest = ref(destinations.value[0]?.name || 'Pelabuhan Tanjung Priok');
 
@@ -28,6 +29,12 @@ const pairTransit = computed(() => {
     const extra = pairDest.value.includes('Priok') ? 0 : 2;
     return `${d + extra}–${d + extra + 4} ${locale.value === 'en' ? 'Days' : 'Hari'}`;
 });
+
+const pairLabel = computed(() =>
+    pairDirection.value === 'Ekspor'
+        ? `${pairDest.value} → ${pairOrigin.value}`
+        : `${pairOrigin.value} → ${pairDest.value}`
+);
 </script>
 
 <template>
@@ -46,30 +53,54 @@ const pairTransit = computed(() => {
                 <!-- Interactive Corridor Pairing Simulator -->
                 <MotionReveal>
                 <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
-                    <div class="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-gold-600 mb-3">
-                        <Compass :size="16" />
-                        <span>{{ locale === 'en' ? 'Interactive Corridor Selector' : 'Simulasi Pasangan Rute Pelabuhan' }}</span>
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                        <div class="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-gold-600">
+                            <Compass :size="16" />
+                            <span>{{ locale === 'en' ? 'Interactive Two-Way Corridor Selector' : 'Simulasi Rute Ekspor & Impor' }}</span>
+                        </div>
+                        <div class="inline-flex items-center bg-slate-100 p-1 rounded-full border border-slate-200">
+                            <button
+                                type="button"
+                                @click="pairDirection = 'Impor'"
+                                class="px-3.5 py-1 rounded-full text-xs font-bold transition cursor-pointer"
+                                :class="pairDirection === 'Impor' ? 'bg-navy-900 text-white' : 'text-slate-600'"
+                            >
+                                {{ locale === 'en' ? 'Import (Asia → ID)' : 'Impor (Asia → RI)' }}
+                            </button>
+                            <button
+                                type="button"
+                                @click="pairDirection = 'Ekspor'"
+                                class="px-3.5 py-1 rounded-full text-xs font-bold transition cursor-pointer"
+                                :class="pairDirection === 'Ekspor' ? 'bg-gold-500 text-navy-950' : 'text-slate-600'"
+                            >
+                                {{ locale === 'en' ? 'Export (ID → Asia)' : 'Ekspor (RI → Asia)' }}
+                            </button>
+                        </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
                         <div class="md:col-span-4">
-                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">{{ locale === 'en' ? 'Origin Country' : 'Negara Asal' }}</label>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">
+                                {{ pairDirection === 'Ekspor' ? (locale === 'en' ? 'Export Destination Country' : 'Negara Tujuan Ekspor') : (locale === 'en' ? 'Origin Country' : 'Negara Asal Impor') }}
+                            </label>
                             <select v-model="pairOrigin" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm font-semibold bg-white">
                                 <option v-for="o in origins" :key="o.id" :value="o.name">{{ o.name }}</option>
                             </select>
                         </div>
                         <div class="md:col-span-1 hidden md:flex justify-center pb-2.5 text-gold-600">
-                            <ArrowRight :size="20" />
+                            <ArrowRight :size="20" :class="pairDirection === 'Ekspor' ? 'rotate-180' : ''" class="transition-transform" />
                         </div>
                         <div class="md:col-span-4">
-                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">{{ locale === 'en' ? 'Indonesian Destination Port' : 'Pelabuhan Tujuan RI' }}</label>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">
+                                {{ pairDirection === 'Ekspor' ? (locale === 'en' ? 'Indonesian Loading Port' : 'Pelabuhan Muat RI') : (locale === 'en' ? 'Indonesian Destination Port' : 'Pelabuhan Tujuan RI') }}
+                            </label>
                             <select v-model="pairDest" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm font-semibold bg-white">
                                 <option v-for="d in destinations" :key="d.id" :value="d.name">{{ d.name }}</option>
                             </select>
                         </div>
                         <div class="md:col-span-3">
                             <Link
-                                :href="`/kontak?origin=${encodeURIComponent(pairOrigin)}&destination=${encodeURIComponent(pairDest)}`"
-                                class="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-400 text-navy-950 font-extrabold text-sm transition"
+                                :href="`/kontak?direction=${encodeURIComponent(pairDirection)}&origin=${encodeURIComponent(pairOrigin)}&destination=${encodeURIComponent(pairDest)}`"
+                                class="btn-gold-sheen w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-gold-500 hover:bg-gold-400 text-navy-950 font-extrabold text-sm transition"
                             >
                                 <span>{{ locale === 'en' ? 'Quote Route' : 'Minta Penawaran' }}</span>
                                 <ArrowUpRight :size="16" />
@@ -79,7 +110,7 @@ const pairTransit = computed(() => {
                     <div class="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-600">
                         <span>
                             {{ locale === 'en' ? 'Selected Corridor:' : 'Rute Terpilih:' }}
-                            <strong class="text-navy-950">{{ pairOrigin }} → {{ pairDest }}</strong>
+                            <strong class="text-navy-950">[{{ pairDirection }}] {{ pairLabel }}</strong>
                         </span>
                         <span>
                             {{ locale === 'en' ? 'Estimated Ocean Transit:' : 'Estimasi Pelayaran Laut:' }}

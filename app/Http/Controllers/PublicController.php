@@ -191,7 +191,7 @@ class PublicController extends Controller
             'destinations' => TradeHub::where('type', 'destination')->where('is_active', true)->orderBy('sort_order')->get()->map->localized($locale),
             'services' => Service::where('is_active', true)->orderBy('sort_order')->get()->map->localized($locale),
             'faqs' => Faq::where('is_active', true)->orderBy('sort_order')->limit(4)->get()->map->localized($locale),
-            'prefill' => $request->only(['origin', 'destination', 'service', 'notes']),
+            'prefill' => $request->only(['direction', 'origin', 'destination', 'service', 'notes']),
         ])->withViewData([
             'seo' => $this->seo($locale === 'en' ? 'Contact & Request a Quote — PT. CARANO UTAMA LOGISTIK' : 'Kontak & Minta Penawaran — PT. CARANO UTAMA LOGISTIK'),
         ]);

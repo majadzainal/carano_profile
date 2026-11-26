@@ -16,7 +16,8 @@ const props = defineProps({
 
 const locale = computed(() => usePage().props.locale || 'id');
 
-// Interactive Shipment Planner / Estimator
+// Interactive Export & Import Shipment Planner / Estimator
+const simDirection = ref('Impor'); // Impor | Ekspor
 const simOrigin = ref('Jepang');
 const simPort = ref('Pelabuhan Tanjung Priok');
 const simMode = ref('FCL 20ft');
@@ -28,10 +29,28 @@ const originDays = {
     Taiwan: [8, 12],
     'Korea Selatan': [11, 15],
     Singapura: [3, 5],
+    'Global / Negara Lain': [14, 24],
 };
 
-const addonOptions = computed(() =>
-    locale.value === 'en'
+const addonOptions = computed(() => {
+    if (simDirection.value === 'Ekspor') {
+        return locale.value === 'en'
+            ? [
+                  { key: 'strapping', label: 'Indonesia Factory Pickup, Strapping & Stuffing' },
+                  { key: 'origin_docs', label: 'Export Customs (PEB, NPE & COO/SKA)' },
+                  { key: 'insurance', label: 'Fumigation, Quarantine & Marine Insurance' },
+                  { key: 'customs', label: 'Carrier Space Booking & Bill of Lading' },
+                  { key: 'delivery', label: 'Overseas Destination Handling (DDU / DDP)' },
+              ]
+            : [
+                  { key: 'strapping', label: 'Pickup Pabrik Indonesia, Strapping & Stuffing' },
+                  { key: 'origin_docs', label: 'Dokumen Ekspor (PEB, NPE & SKA/COO)' },
+                  { key: 'insurance', label: 'Fumigasi, Karantina & Asuransi Kargo' },
+                  { key: 'customs', label: 'Booking Kapal & Penerbitan Bill of Lading' },
+                  { key: 'delivery', label: 'Handling Pelabuhan Tujuan (DDU / DDP)' },
+              ];
+    }
+    return locale.value === 'en'
         ? [
               { key: 'strapping', label: 'Origin Factory Strapping & Pickup' },
               { key: 'origin_docs', label: 'Origin Export Docs & Local Tax' },
@@ -43,10 +62,10 @@ const addonOptions = computed(() =>
               { key: 'strapping', label: 'Strapping & Pickup Gudang Pabrik Asal' },
               { key: 'origin_docs', label: 'Dokumen Ekspor & Pajak Negara Asal' },
               { key: 'insurance', label: 'Asuransi Kargo Laut' },
-              { key: 'customs', label: 'Pengurusan Pajak & Bea Cukai Terminal' },
+              { key: 'customs', label: 'Pengurusan Pajak & Bea Cukai Terminal (PIB)' },
               { key: 'delivery', label: 'Stripping & Trucking ke Lokasi Tujuan' },
-          ]
-);
+          ];
+});
 
 const toggleAddon = (key) => {
     if (simAddons.value.includes(key)) {
@@ -65,13 +84,20 @@ const estimatedTransit = computed(() => {
         : `${minD + portDelta}–${maxD + portDelta} Hari (Pelayaran Laut)`;
 });
 
+const corridorDisplay = computed(() => {
+    const portShort = simPort.value.replace('Pelabuhan ', '');
+    return simDirection.value === 'Ekspor'
+        ? `${portShort} → ${simOrigin.value}`
+        : `${simOrigin.value} → ${portShort}`;
+});
+
 const prefillContactUrl = computed(() => {
     const selectedLabels = addonOptions.value
         .filter((a) => simAddons.value.includes(a.key))
         .map((a) => a.label)
         .join(', ');
-    const notes = `Moda: ${simMode.value} | Rute: ${simOrigin.value} -> ${simPort.value} | Cakupan: ${selectedLabels || 'Standard'}`;
-    return `/kontak?origin=${encodeURIComponent(simOrigin.value)}&destination=${encodeURIComponent(simPort.value)}&notes=${encodeURIComponent(notes)}`;
+    const notes = `[${simDirection.value.toUpperCase()}] Moda: ${simMode.value} | Rute: ${corridorDisplay.value} | Cakupan: ${selectedLabels || 'Standard'}`;
+    return `/kontak?direction=${encodeURIComponent(simDirection.value)}&origin=${encodeURIComponent(simOrigin.value)}&destination=${encodeURIComponent(simPort.value)}&notes=${encodeURIComponent(notes)}`;
 });
 </script>
 
@@ -91,25 +117,69 @@ const prefillContactUrl = computed(() => {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <MotionReveal>
                 <div class="bg-white rounded-3xl border border-slate-200 shadow-lg p-6 sm:p-9">
-                    <div class="flex items-center gap-2.5 text-xs font-extrabold uppercase tracking-wider text-gold-600 mb-2">
-                        <Calculator :size="16" />
-                        <span>{{ locale === 'en' ? 'Interactive Shipment Scope Simulator' : 'Simulator Cakupan & Estimasi Pengiriman' }}</span>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <div class="flex items-center gap-2.5 text-xs font-extrabold uppercase tracking-wider text-gold-600 mb-1.5">
+                                <Calculator :size="16" />
+                                <span>{{ locale === 'en' ? 'Interactive Export & Import Simulator' : 'Simulator Cakupan & Estimasi Ekspor / Impor' }}</span>
+                            </div>
+                            <h2 class="text-2xl font-extrabold text-navy-950">
+                                {{ locale === 'en' ? 'Configure Your Export or Import Plan' : 'Simulasikan Rencana Ekspor atau Impor Anda' }}
+                            </h2>
+                        </div>
+
+                        <!-- Two-Way Export / Import Toggle -->
+                        <div class="inline-flex items-center bg-slate-100 p-1 rounded-full border border-slate-200 self-start shrink-0">
+                            <button
+                                type="button"
+                                @click="simDirection = 'Impor'"
+                                class="px-4 py-2 rounded-full text-xs font-extrabold transition cursor-pointer"
+                                :class="simDirection === 'Impor' ? 'bg-navy-900 text-white shadow-xs' : 'text-slate-600 hover:text-navy-900'"
+                            >
+                                {{ locale === 'en' ? 'Import (Inbound)' : 'Impor (Masuk RI)' }}
+                            </button>
+                            <button
+                                type="button"
+                                @click="simDirection = 'Ekspor'"
+                                class="px-4 py-2 rounded-full text-xs font-extrabold transition cursor-pointer"
+                                :class="simDirection === 'Ekspor' ? 'bg-gold-500 text-navy-950 shadow-xs' : 'text-slate-600 hover:text-navy-900'"
+                            >
+                                {{ locale === 'en' ? 'Export (Outbound)' : 'Ekspor (Keluar RI)' }}
+                            </button>
+                        </div>
                     </div>
-                    <h2 class="text-2xl font-extrabold text-navy-950 mb-6">
-                        {{ locale === 'en' ? 'Configure Your Import Plan in Seconds' : 'Simulasikan Rencana Impor Anda' }}
-                    </h2>
 
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                         <div class="lg:col-span-7 space-y-5">
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div>
-                                    <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">{{ locale === 'en' ? 'Origin' : 'Negara Asal' }}</label>
+                                    <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">
+                                        {{
+                                            simDirection === 'Ekspor'
+                                                ? locale === 'en'
+                                                    ? 'Export Destination'
+                                                    : 'Negara Tujuan Ekspor'
+                                                : locale === 'en'
+                                                ? 'Origin Country'
+                                                : 'Negara Asal Impor'
+                                        }}
+                                    </label>
                                     <select v-model="simOrigin" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm font-semibold bg-white">
                                         <option v-for="o in Object.keys(originDays)" :key="o" :value="o">{{ o }}</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">{{ locale === 'en' ? 'Indonesian Port' : 'Pelabuhan Tujuan' }}</label>
+                                    <label class="block text-xs font-bold uppercase text-navy-900 mb-1.5">
+                                        {{
+                                            simDirection === 'Ekspor'
+                                                ? locale === 'en'
+                                                    ? 'Indonesian Loading Port'
+                                                    : 'Pelabuhan Muat RI'
+                                                : locale === 'en'
+                                                ? 'Indonesian Port'
+                                                : 'Pelabuhan Tujuan RI'
+                                        }}
+                                    </label>
                                     <select v-model="simPort" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm font-semibold bg-white">
                                         <option value="Pelabuhan Tanjung Priok">Tanjung Priok (Jakarta)</option>
                                         <option value="Pelabuhan Tanjung Emas">Tanjung Emas (Semarang)</option>
@@ -158,7 +228,8 @@ const prefillContactUrl = computed(() => {
                                 <Ship :size="18" class="text-gold-600" />
                             </div>
                             <div class="space-y-2 text-sm text-navy-950">
-                                <div class="flex justify-between"><span class="text-slate-500">{{ locale === 'en' ? 'Corridor' : 'Koridor' }}:</span><span class="font-bold">{{ simOrigin }} → {{ simPort.replace('Pelabuhan ', '') }}</span></div>
+                                <div class="flex justify-between"><span class="text-slate-500">{{ locale === 'en' ? 'Type' : 'Jenis' }}:</span><span class="font-extrabold text-navy-900">{{ simDirection }}</span></div>
+                                <div class="flex justify-between"><span class="text-slate-500">{{ locale === 'en' ? 'Corridor' : 'Koridor' }}:</span><span class="font-bold">{{ corridorDisplay }}</span></div>
                                 <div class="flex justify-between"><span class="text-slate-500">{{ locale === 'en' ? 'Mode' : 'Moda' }}:</span><span class="font-bold text-gold-600">{{ simMode }}</span></div>
                                 <div class="flex justify-between items-center pt-2 border-t border-slate-200">
                                     <span class="text-slate-500 inline-flex items-center gap-1"><Clock :size="14" /> {{ locale === 'en' ? 'Est. Transit' : 'Est. Transit' }}:</span>

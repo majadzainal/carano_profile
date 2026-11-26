@@ -18,30 +18,58 @@ const page = usePage();
 const locale = computed(() => page.props.locale || 'id');
 const settings = computed(() => page.props.settings || {});
 
-// Interactive Document Readiness Checklist
-const checkedDocs = ref(['invoice', 'packing_list', 'bl']);
+// Interactive Export & Import Document Readiness Checklist
+const checklistMode = ref('import'); // import | export
+const checkedDocs = ref(['invoice', 'packing_list', 'bl', 'exp_invoice', 'exp_peb']);
 
-const docGroups = computed(() => [
-    {
-        phase: locale.value === 'en' ? 'Origin & Export Docs (Steps 1–4)' : 'Dokumen Negara Asal (Tahap 1–4)',
-        items: [
-            { id: 'invoice', label: 'Commercial Invoice & Packing List' },
-            { id: 'coo', label: 'Certificate of Origin (Form E / IJEPA / AK)' },
-            { id: 'insurance', label: locale.value === 'en' ? 'Marine Cargo Insurance Policy' : 'Polis Asuransi Kargo Laut' },
-        ],
-    },
-    {
-        phase: locale.value === 'en' ? 'Ocean & Terminal Docs (Steps 5–10)' : 'Dokumen Pelayaran & Bea Cukai RI (Tahap 5–10)',
-        items: [
-            { id: 'bl', label: 'Bill of Lading (B/L) / Telex Release' },
-            { id: 'pib', label: 'PIB (Pemberitahuan Impor Barang) & HS Code' },
-            { id: 'sppb', label: 'DO Pelayaran & SPPB (Izin Keluar Terminal)' },
-        ],
-    },
-]);
+const docGroups = computed(() => {
+    if (checklistMode.value === 'export') {
+        return [
+            {
+                phase: locale.value === 'en' ? 'Exporter & Origin Prep (Indonesia)' : 'Persiapan Eksportir & Stuffing (Indonesia)',
+                items: [
+                    { id: 'exp_invoice', label: 'Commercial Invoice & Packing List' },
+                    { id: 'exp_nib', label: locale.value === 'en' ? 'Exporter Registration (NIB / Legal Entity)' : 'Legalitas Eksportir (NIB / NPWP)' },
+                    { id: 'exp_stuffing', label: locale.value === 'en' ? 'Strapping, Stuffing & Fumigation (if required)' : 'Standar Strapping, Stuffing & Fumigasi (bila perlu)' },
+                ],
+            },
+            {
+                phase: locale.value === 'en' ? 'Export Customs & Ocean Carrier' : 'Kepabeanan Ekspor (PEB) & Pelayaran',
+                items: [
+                    { id: 'exp_peb', label: 'PEB (Pemberitahuan Ekspor Barang) & NPE' },
+                    { id: 'exp_coo', label: 'SKA / Certificate of Origin (Form E / IJEPA / AK / D)' },
+                    { id: 'exp_bl', label: 'Shipping Instruction (SI) & Bill of Lading (B/L)' },
+                ],
+            },
+        ];
+    }
+    return [
+        {
+            phase: locale.value === 'en' ? 'Origin & Export Docs (Steps 1–4)' : 'Dokumen Negara Asal (Tahap 1–4)',
+            items: [
+                { id: 'invoice', label: 'Commercial Invoice & Packing List' },
+                { id: 'coo', label: 'Certificate of Origin (Form E / IJEPA / AK)' },
+                { id: 'insurance', label: locale.value === 'en' ? 'Marine Cargo Insurance Policy' : 'Polis Asuransi Kargo Laut' },
+            ],
+        },
+        {
+            phase: locale.value === 'en' ? 'Ocean & Terminal Docs (Steps 5–10)' : 'Dokumen Pelayaran & Bea Cukai RI (Tahap 5–10)',
+            items: [
+                { id: 'bl', label: 'Bill of Lading (B/L) / Telex Release' },
+                { id: 'pib', label: 'PIB (Pemberitahuan Impor Barang) & HS Code' },
+                { id: 'sppb', label: 'DO Pelayaran & SPPB (Izin Keluar Terminal)' },
+            ],
+        },
+    ];
+});
 
-const totalDocs = computed(() => docGroups.value.reduce((acc, g) => acc + g.items.length, 0));
-const readinessPercent = computed(() => Math.round((checkedDocs.value.length / totalDocs.value) * 100));
+const currentDocIds = computed(() => docGroups.value.flatMap((g) => g.items.map((i) => i.id)));
+const readinessPercent = computed(() => {
+    const ids = currentDocIds.value;
+    if (!ids.length) return 0;
+    const count = ids.filter((id) => checkedDocs.value.includes(id)).length;
+    return Math.round((count / ids.length) * 100);
+});
 
 const toggleDoc = (id) => {
     if (checkedDocs.value.includes(id)) {
@@ -91,11 +119,29 @@ const toggleDoc = (id) => {
                         <div>
                             <div class="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-gold-600 mb-1">
                                 <ClipboardCheck :size="16" />
-                                <span>{{ locale === 'en' ? 'Interactive Import Readiness Check' : 'Cek Kesiapan Dokumen Impor Anda' }}</span>
+                                <span>{{ locale === 'en' ? 'Interactive Export & Import Readiness Check' : 'Cek Kesiapan Dokumen Ekspor & Impor' }}</span>
                             </div>
                             <h2 class="text-2xl font-extrabold text-navy-950">
                                 {{ locale === 'en' ? 'Check Documents You Already Have' : 'Centang Dokumen yang Sudah Tersedia' }}
                             </h2>
+                            <div class="mt-3 inline-flex items-center bg-slate-100 p-1 rounded-full border border-slate-200">
+                                <button
+                                    type="button"
+                                    @click="checklistMode = 'import'"
+                                    class="px-3.5 py-1.5 rounded-full text-xs font-bold transition cursor-pointer"
+                                    :class="checklistMode === 'import' ? 'bg-navy-900 text-white' : 'text-slate-600'"
+                                >
+                                    {{ locale === 'en' ? 'Import (PIB)' : 'Checklist Impor (PIB)' }}
+                                </button>
+                                <button
+                                    type="button"
+                                    @click="checklistMode = 'export'"
+                                    class="px-3.5 py-1.5 rounded-full text-xs font-bold transition cursor-pointer"
+                                    :class="checklistMode === 'export' ? 'bg-gold-500 text-navy-950' : 'text-slate-600'"
+                                >
+                                    {{ locale === 'en' ? 'Export (PEB & SKA)' : 'Checklist Ekspor (PEB & SKA)' }}
+                                </button>
+                            </div>
                         </div>
                         <div class="text-right">
                             <div class="text-xs text-slate-500 font-semibold">{{ locale === 'en' ? 'Document Readiness' : 'Kesiapan Dokumen' }}</div>

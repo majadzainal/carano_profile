@@ -6,8 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @php
-        $seoTitle = $seo['title'] ?? 'PT. CARANO UTAMA LOGISTIK — Integrated International Import & Sea Freight';
-        $seoDescription = $seo['description'] ?? 'PT. CARANO UTAMA LOGISTIK menyediakan solusi logistik impor laut end-to-end dari Jepang, China, Taiwan, Korea, dan Singapura menuju Tanjung Priok, Tanjung Emas, dan Tanjung Perak.';
+        $seoTitle = $seo['title'] ?? 'PT. CARANO UTAMA LOGISTIK — Integrated International Export & Import Freight Forwarder';
+        $seoDescription = $seo['description'] ?? 'PT. CARANO UTAMA LOGISTIK menyediakan solusi logistik ekspor dan impor end-to-end (Sea Freight, Air Freight, Customs Clearance PEB/PIB & Trucking) menghubungkan Indonesia dengan Jepang, China, Taiwan, Korea, Singapura & global.';
         $seoImage = $seo['image'] ?? asset('images/brand/logo-carano-light.png');
     @endphp
 

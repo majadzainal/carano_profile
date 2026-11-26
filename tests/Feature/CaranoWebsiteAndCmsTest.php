@@ -25,11 +25,13 @@ class CaranoWebsiteAndCmsTest extends TestCase
             '/',
             '/layanan',
             '/layanan/sea-freight-import',
+            '/layanan/sea-air-freight-export',
             '/alur-pengiriman',
             '/jaringan-rute',
             '/tentang-kami',
             '/insight',
             '/insight/panduan-10-tahap-road-map-shipment-impor-laut',
+            '/insight/panduan-ekspor-indonesia-peb-ska-dan-stuffing-kontainer',
             '/kontak',
         ];
 
